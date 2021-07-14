@@ -1,14 +1,14 @@
-import { AuthContext } from '@tmtsoftware/esw-ts'
 import Title from 'antd/lib/typography/Title'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useUserName as useUsername } from './contexts/LocationServiceContext'
 
 const Welcome = (): JSX.Element => {
-  const { auth } = useContext(AuthContext)
   const [username, setUsername] = useState<string | undefined>(undefined)
+  const user = useUsername()
 
   useEffect(() => {
-    setUsername(auth?.tokenParsed()?.preferred_username)
-  }, [auth])
+    setUsername(user)
+  }, [user])
 
   return (
     <Title style={{ marginTop: 8 }} level={4}>

@@ -1,22 +1,21 @@
-import { AuthContext } from '@tmtsoftware/esw-ts'
 import { Button, Form, Input, Typography } from 'antd'
-import React, { useContext } from 'react'
+import React from 'react'
 import { useLocationService } from '../contexts/LocationServiceContext'
-import { greetUser, securedGreetUser, showError } from '../helpers/HttpUtils'
+import { fetchData, showError } from '../helpers/HttpUtils'
 import { resolveBackendUrl } from '../helpers/resolveBackend'
-import type { UserInfoRequest } from '../models/Models'
+import type { GreetResponse, UserInfoRequest } from '../models/Models'
 import styles from './UserForm.module.css'
 
 const UserForm = ({
   onSubmitHandler,
-  isSecured = false
+  path,
+  authHeader
 }: {
   onSubmitHandler: (message: string) => void
-  isSecured?: boolean
+  path: string
+  authHeader?: { Authorization: string }
 }): JSX.Element => {
   const locationService = useLocationService()
-  const { auth } = useContext(AuthContext)
-  const secured = isSecured ? 'Secured' : ''
 
   const onFinish = async (values: UserInfoRequest) => {
     const backendLocation = await resolveBackendUrl(locationService)
@@ -27,17 +26,15 @@ const UserForm = ({
       )
       return
     }
-    if (isSecured) {
-      const response = await securedGreetUser(
-        backendLocation.uri,
-        values,
-        auth?.token()
-      )
-      onSubmitHandler(response[0].msg)
-    } else {
-      const response = await greetUser(backendLocation.uri, values)
-      onSubmitHandler(response.msg)
-    }
+    const response: GreetResponse | GreetResponse[] = await fetchData(
+      backendLocation.uri + path,
+      { _type: 'UserInfo', ...values },
+      authHeader
+    )
+
+    Array.isArray(response)
+      ? onSubmitHandler(response[0].msg)
+      : onSubmitHandler(response.msg)
   }
 
   const layout = {
@@ -52,9 +49,7 @@ const UserForm = ({
         onFinish={onFinish}
         className={styles.formBody}>
         <Form.Item className={styles.formHeader}>
-          <Typography.Title level={4}>
-            {`${secured} User Info:`}
-          </Typography.Title>
+          <Typography.Title level={4}>{`User Info:`}</Typography.Title>
         </Form.Item>
         <Form.Item
           label='FirstName'

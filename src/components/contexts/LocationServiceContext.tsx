@@ -1,4 +1,9 @@
-import type { LocationService } from '@tmtsoftware/esw-ts'
+import {
+  Auth,
+  AuthContext,
+  AuthContextType,
+  LocationService
+} from '@tmtsoftware/esw-ts'
 import React, { createContext, PropsWithChildren, useContext } from 'react'
 
 const LocationServiceContext = createContext<LocationService | undefined>(
@@ -21,4 +26,16 @@ export const useLocationService = (): LocationService => {
       'useLocationService must be inside a LocationServiceProvider with a value'
     )
   return c
+}
+
+export const useAuth = (): AuthContextType => {
+  const ctx = useContext(AuthContext)
+  if (!ctx)
+    throw new Error('useAuth must be inside a AuthContextProvider with a value')
+  return ctx
+}
+
+export const useUserName = (): string | undefined => {
+  const { auth } = useAuth()
+  return auth?.tokenParsed()?.preferred_username
 }
