@@ -2,9 +2,9 @@ import { AuthContextProvider, LocationService } from '@tmtsoftware/esw-ts'
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import 'antd/dist/antd.css'
-import { LocationServiceProvider } from './components/contexts/LocationServiceContext'
 import { MenuBar } from './components/navigation/Menu'
 import { AppConfig } from './config/AppConfig'
+import { LocationServiceProvider } from './contexts/LocationServiceContext'
 import { Routes } from './routes/Routes'
 
 const basename =

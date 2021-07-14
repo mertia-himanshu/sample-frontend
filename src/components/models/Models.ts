@@ -3,5 +3,9 @@ export interface UserInfoRequest {
   lastname: string
 }
 export interface GreetResponse {
-  msg: string
+  greeting: string
+}
+
+export interface AdminGreetResponse {
+  greeting: string
 }

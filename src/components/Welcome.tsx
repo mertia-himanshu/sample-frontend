@@ -1,8 +1,8 @@
-import Title from 'antd/lib/typography/Title'
 import React, { useEffect, useState } from 'react'
-import { useUserName as useUsername } from './contexts/LocationServiceContext'
+import { useUsername } from '../hooks/Hooks'
+import { displayGreeting } from './GreetUser'
 
-const Welcome = (): JSX.Element => {
+export const Welcome = (): JSX.Element => {
   const [username, setUsername] = useState<string | undefined>(undefined)
   const user = useUsername()
 
@@ -10,11 +10,5 @@ const Welcome = (): JSX.Element => {
     setUsername(user)
   }, [user])
 
-  return (
-    <Title style={{ marginTop: 8 }} level={4}>
-      Welcome {username ? username : 'Guest'} !!!{' '}
-    </Title>
-  )
+  return <>{displayGreeting(`Welcome ${username ? username : 'Guest'} !!!`)}</>
 }
-
-export default Welcome

@@ -4,7 +4,7 @@ import type { TestUtils } from '@tmtsoftware/esw-ts'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { instance, mock } from 'ts-mockito'
-import { LocationServiceProvider } from '../../src/components/contexts/LocationServiceContext'
+import { LocationServiceProvider } from '../../src/contexts/LocationServiceContext'
 
 class MockedFetch {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

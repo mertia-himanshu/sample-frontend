@@ -5,6 +5,7 @@ import { expect } from 'chai'
 import React from 'react'
 import { anything, capture, deepEqual, verify, when } from 'ts-mockito'
 import { GreetUser } from '../../src/components'
+import { AdminGreetUser } from '../../src/components/GreetUser'
 import {
   locationServiceMock,
   mockFetch,
@@ -85,7 +86,7 @@ describe('Greet User', () => {
 
     when(fetch(anything(), anything())).thenResolve(response)
 
-    renderWithRouter(<GreetUser isSecured />)
+    renderWithRouter(<AdminGreetUser />)
 
     const firstNameInput = (await screen.findByRole(
       'FirstName'
