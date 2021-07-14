@@ -1,44 +1,35 @@
 import { AuthContextProvider, LocationService } from '@tmtsoftware/esw-ts'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import 'antd/dist/antd.css'
 import { MenuBar } from './components/navigation/Menu'
 import { AppConfig } from './config/AppConfig'
 import { LocationServiceProvider } from './contexts/LocationServiceContext'
+import { useQuery } from './hooks/useQuery'
 import { Routes } from './routes/Routes'
 
 const basename =
   import.meta.env.NODE_ENV === 'production' ? AppConfig.applicationName : ''
 
 const App = (): JSX.Element => {
-  const [locService, setLocService] = useState<LocationService>()
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const { data: locationService, loading, error } = useQuery(LocationService)
 
-  useEffect(() => {
-    LocationService()
-      .then((loc) => setLocService(loc))
-      .catch(() => setError(true))
-    setLoading(false)
-  }, [])
+  if (loading) return <div>Loading...</div>
+  if (error || !locationService)
+    return <div>Location Service not Available, reason {error?.message}</div>
 
   return (
-    <>
-      {locService && !loading && (
-        <div>
-          <LocationServiceProvider locationService={locService}>
-            <AuthContextProvider
-              config={{ realm: 'TMT', clientId: 'tmt-frontend-app' }}>
-              <Router basename={basename}>
-                <MenuBar />
-                <Routes />
-              </Router>
-            </AuthContextProvider>
-          </LocationServiceProvider>
-        </div>
-      )}
-      {!loading && error && <div>Location Service not Available</div>}
-    </>
+    <div>
+      <LocationServiceProvider locationService={locationService}>
+        <AuthContextProvider
+          config={{ realm: 'TMT', clientId: 'tmt-frontend-app' }}>
+          <Router basename={basename}>
+            <MenuBar />
+            <Routes />
+          </Router>
+        </AuthContextProvider>
+      </LocationServiceProvider>
+    </div>
   )
 }
 

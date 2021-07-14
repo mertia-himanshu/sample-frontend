@@ -1,7 +1,7 @@
 import { Menu } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useAuth } from '../../hooks/Hooks'
+import { useAuth } from '../../hooks/useAuth'
 import { LoginLogout } from './LoginLogout'
 
 export const MenuBar = (): JSX.Element => {

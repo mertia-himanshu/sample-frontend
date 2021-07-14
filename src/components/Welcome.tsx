@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useUsername } from '../hooks/Hooks'
+import { useUsername } from '../hooks/useAuth'
 import { displayGreeting } from './GreetUser'
 
 export const Welcome = (): JSX.Element => {

@@ -3,7 +3,7 @@ import { Route, RouteProps, Switch } from 'react-router-dom'
 import { GreetUser, AdminGreetUser } from '../components/GreetUser'
 import NotFound from '../components/NotFound'
 import { Welcome } from '../components/Welcome'
-import { useAuth } from '../hooks/Hooks'
+import { useAuth } from '../hooks/useAuth'
 
 const ProtectedRoute = (routeProps: RouteProps) => {
   const { auth } = useAuth()
