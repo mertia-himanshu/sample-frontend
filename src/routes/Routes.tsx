@@ -1,39 +1,27 @@
-import { AuthContext } from '@tmtsoftware/esw-ts'
-import React, { useContext } from 'react'
+import React from 'react'
 import { Route, RouteProps, Switch } from 'react-router-dom'
+import { useAuth } from 'src/components/contexts/LocationServiceContext'
 import LoginError from '../components/error/LoginError'
-import { GreetUser } from '../components/GreetUser'
+import { GreetUser, GreetUserSecured } from '../components/GreetUser'
 import NotFound from '../components/NotFound'
 import Welcome from '../components/Welcome'
 
-type ProtectedRouteProps = {
-  authenticated: boolean
-  fallback: JSX.Element
-} & RouteProps
+type ProtectedRouteProps = { fallback: JSX.Element } & RouteProps
 
-const ProtectedRoute = ({
-  authenticated,
-  fallback,
-  ...routeProps
-}: ProtectedRouteProps) => {
-  if (authenticated) {
-    return <Route {...routeProps} />
-  } else {
-    return fallback
-  }
+const ProtectedRoute = ({ fallback, ...routeProps }: ProtectedRouteProps) => {
+  const { auth } = useAuth()
+  const isAuthenticated = auth?.isAuthenticated() ?? false
+  return isAuthenticated ? <Route {...routeProps} /> : fallback
 }
 
 export const Routes = (): JSX.Element => {
-  const { auth } = useContext(AuthContext)
-
   return (
     <Switch>
-      <Route exact path='/' component={() => <Welcome />} />
-      <Route path='/greet' component={() => <GreetUser />} />
+      <Route exact path='/' component={Welcome} />
+      <Route path='/greet' component={GreetUser} />
       <ProtectedRoute
-        authenticated={auth?.isAuthenticated() ?? false}
         path='/securedGreet'
-        component={() => <GreetUser isSecured auth={auth} />}
+        component={GreetUserSecured}
         fallback={<LoginError />}
       />
       <Route path='*' component={NotFound} />

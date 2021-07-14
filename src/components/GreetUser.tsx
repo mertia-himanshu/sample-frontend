@@ -1,22 +1,31 @@
-import type { Auth } from '@tmtsoftware/esw-ts'
 import { Layout, Typography } from 'antd'
 import { Content } from 'antd/lib/layout/layout'
 import React, { useState } from 'react'
+import { useAuth } from './contexts/LocationServiceContext'
 import UserForm from './form/UserForm'
 import styles from './GreetUser.module.css'
+type AuthHeader = {
+  Authorization: string
+}
+export const GreetUser = (): JSX.Element => {
+  return <GreetUser0 path='sayHello' />
+}
 
-export const GreetUser = ({
-  isSecured = false,
-  auth
+export const GreetUserSecured = (): JSX.Element => {
+  const { auth } = useAuth()
+  const authHeader = { Authorization: `Bearer ${auth?.token()}` }
+
+  return <GreetUser0 path='securedSayHello' authHeader={authHeader} />
+}
+
+const GreetUser0 = ({
+  path,
+  authHeader
 }: {
-  isSecured?: boolean
-  auth?: Auth | null
+  path: string
+  authHeader?: AuthHeader
 }): JSX.Element => {
   const [displayMessage, setDisplayMessage] = useState('')
-  const path = isSecured ? 'securedSayHello' : 'sayHello'
-  const authHeader = isSecured
-    ? { Authorization: `Bearer ${auth?.token()}` }
-    : undefined
 
   const onSubmitHandler = (message: string) => {
     setDisplayMessage(message)

@@ -1,5 +1,4 @@
 import {
-  Auth,
   AuthContext,
   AuthContextType,
   LocationService
