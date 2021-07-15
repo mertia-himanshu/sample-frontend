@@ -13,7 +13,6 @@ export const fetchData = async <T, R>(
   authHeader?: { Authorization: string }
 ): Promise<R> => {
   const headers = { 'Content-Type': 'application/json', ...authHeader }
-  console.log(headers)
   const fetchResponse = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(model),

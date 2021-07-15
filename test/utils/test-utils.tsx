@@ -24,13 +24,7 @@ export const mockFetch = (): typeof window.fetch => {
   return mockedFetch.fetch
 }
 
-const locMock = mock<HttpLocation>()
-const locMockInstance = instance(locMock)
-
 export const locationServiceMock = mock<LocationService>()
-
-when(locationServiceMock.find(anything())).thenResolve(locMockInstance)
-when(locMock.uri).thenReturn('uri')
 
 const getMockAuth = (loggedIn: boolean): Auth => {
   let loggedInValue = loggedIn

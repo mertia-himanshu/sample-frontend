@@ -17,7 +17,7 @@ describe('Greet User', () => {
 
   const httpLocation: HttpLocation = {
     _type: 'HttpLocation',
-    uri: '',
+    uri: 'some-backend-url',
     connection,
     metadata: {}
   }
@@ -55,7 +55,7 @@ describe('Greet User', () => {
     )) as HTMLButtonElement
 
     await waitFor(() => userEvent.click(submitButton))
-    debugger
+
     verify(locationServiceMock.find(deepEqual(connection))).called()
     const [firstArg, secondArg] = capture(fetch).last()
     expect(firstArg).to.equal(httpLocation.uri + 'greeting')
