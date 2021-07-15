@@ -24,7 +24,7 @@ export const AdminGreeting = (): JSX.Element => {
         errorMessage('Failed to greet user: Unauthenticated request')
       } else {
         const response = await fetchAdminGreeting(backendUrl, values, token)
-        setGreeting(response.greeting)
+        if (response) setGreeting(response.greeting)
       }
     }
   }

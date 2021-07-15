@@ -1,19 +1,31 @@
-import type { GreetResponse, UserInfoRequest } from '../models/Models'
-import { fetchData } from './fetchData'
+import type {
+  AdminGreetResponse,
+  GreetResponse,
+  UserInfoRequest
+} from '../models/Models'
+import { post } from './Http'
 
 const greetingUrl = (baseUrl: string) => baseUrl + 'greeting'
 const adminGreetingUrl = (baseUrl: string) => baseUrl + 'adminGreeting'
 
-export const fetchGreeting = (
+export const fetchGreeting = async (
   baseUrl: string,
   userInfo: UserInfoRequest
-): Promise<GreetResponse> => fetchData(greetingUrl(baseUrl), userInfo)
+): Promise<GreetResponse | undefined> =>
+  (await post<UserInfoRequest, GreetResponse>(greetingUrl(baseUrl), userInfo))
+    .parsedBody
 
-export const fetchAdminGreeting = (
+export const fetchAdminGreeting = async (
   baseUrl: string,
   userInfo: UserInfoRequest,
   token: string
-): Promise<GreetResponse> =>
-  fetchData(adminGreetingUrl(baseUrl), userInfo, {
-    Authorization: `Bearer ${token}`
-  })
+): Promise<AdminGreetResponse | undefined> =>
+  (
+    await post<UserInfoRequest, GreetResponse>(
+      adminGreetingUrl(baseUrl),
+      userInfo,
+      {
+        Authorization: `Bearer ${token}`
+      }
+    )
+  ).parsedBody

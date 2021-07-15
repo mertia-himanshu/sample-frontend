@@ -16,7 +16,7 @@ export const Greeting = (): JSX.Element => {
 
     if (backendUrl) {
       const response = await fetchGreeting(backendUrl, values)
-      setGreeting(response.greeting)
+      if (response) setGreeting(response.greeting)
     }
   }
 
