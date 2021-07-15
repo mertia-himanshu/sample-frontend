@@ -17,7 +17,7 @@ const getBackendLocation = async (locationService: LocationService) => {
     const backendLocation = await locationService.find(BACKEND_CONNECTION)
     if (backendLocation === undefined) {
       errorMessage(
-        `Backend Server connection ${BACKEND_CONNECTION} not available`
+        `Backend Server connection ${BACKEND_CONNECTION.prefix.toJSON()} not available`
       )
     }
     return backendLocation
