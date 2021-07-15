@@ -5,7 +5,6 @@ import { expect } from 'chai'
 import React from 'react'
 import { anything, capture, deepEqual, verify, when } from 'ts-mockito'
 import { AdminGreeting } from '../../src/components/pages/AdminGreeting'
-import { Greeting } from '../../src/components/pages/Greeting'
 import {
   locationServiceMock,
   mockFetch,
