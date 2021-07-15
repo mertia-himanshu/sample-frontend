@@ -2,8 +2,11 @@ export interface HttpResponse<R> extends Response {
   parsedBody?: R
 }
 
-const http = async <Res>(request: RequestInfo): Promise<HttpResponse<Res>> => {
-  const response: HttpResponse<Res> = await fetch(request)
+const http = async <Res>(
+  request: RequestInfo,
+  init?: RequestInit
+): Promise<HttpResponse<Res>> => {
+  const response: HttpResponse<Res> = await fetch(request, init)
 
   try {
     response.parsedBody = await response.json()
@@ -21,7 +24,7 @@ const http = async <Res>(request: RequestInfo): Promise<HttpResponse<Res>> => {
 
 export const get = async <Res>(path: string): Promise<HttpResponse<Res>> => {
   const args: RequestInit = { method: 'GET' }
-  return await http<Res>(new Request(path, args))
+  return await http<Res>(path, args)
 }
 
 export const post = async <Req, Res>(
@@ -34,7 +37,7 @@ export const post = async <Req, Res>(
     body: JSON.stringify(body),
     headers: { 'Content-Type': 'application/json', ...headers }
   }
-  return await http<Res>(new Request(path, args))
+  return await http<Res>(path, args)
 }
 
 export const put = async <Req, Res>(
@@ -47,5 +50,5 @@ export const put = async <Req, Res>(
     body: JSON.stringify(body),
     headers: { 'Content-Type': 'application/json', ...headers }
   }
-  return await http<Res>(new Request(path, args))
+  return await http<Res>(path, args)
 }
