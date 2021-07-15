@@ -1,9 +1,14 @@
 import { render, RenderResult } from '@testing-library/react'
-import { Auth, AuthContext, LocationService } from '@tmtsoftware/esw-ts'
+import {
+  Auth,
+  AuthContext,
+  HttpLocation,
+  LocationService
+} from '@tmtsoftware/esw-ts'
 import type { TestUtils } from '@tmtsoftware/esw-ts'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { instance, mock } from 'ts-mockito'
+import { anything, instance, mock, when } from 'ts-mockito'
 import { LocationServiceProvider } from '../../src/contexts/LocationServiceContext'
 
 class MockedFetch {
@@ -19,7 +24,13 @@ export const mockFetch = (): typeof window.fetch => {
   return mockedFetch.fetch
 }
 
+const locMock = mock<HttpLocation>()
+const locMockInstance = instance(locMock)
+
 export const locationServiceMock = mock<LocationService>()
+
+when(locationServiceMock.find(anything())).thenResolve(locMockInstance)
+when(locMock.uri).thenReturn('uri')
 
 const getMockAuth = (loggedIn: boolean): Auth => {
   let loggedInValue = loggedIn

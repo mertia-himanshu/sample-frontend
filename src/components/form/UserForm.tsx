@@ -1,7 +1,7 @@
 import { Button, Form, Input, Layout, Typography } from 'antd'
 import { Content } from 'antd/lib/layout/layout'
 import React from 'react'
-import type { UserInfoRequest } from '../models/Models'
+import type { UserInfoRequest } from '../../models/Models'
 import styles from './UserForm.module.css'
 
 export const UserForm = ({

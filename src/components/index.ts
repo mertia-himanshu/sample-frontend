@@ -1,2 +1,2 @@
-import { GreetUser } from './GreetUser'
+import { GreetUser } from './pages/GreetUser'
 export { GreetUser }

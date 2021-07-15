@@ -1,16 +1,9 @@
 import React, { useEffect } from 'react'
 import { Route, RouteProps, Switch } from 'react-router-dom'
-import { GreetUser, AdminGreetUser } from '../components/GreetUser'
-import NotFound from '../components/NotFound'
-import { Welcome } from '../components/Welcome'
+import { NotFound } from '../components/error/NotFound'
+import { GreetUser, AdminGreetUser } from '../components/pages/GreetUser'
+import { Welcome } from '../components/pages/Welcome'
 import { useAuth } from '../hooks/useAuth'
-
-const ProtectedRoute = (routeProps: RouteProps) => {
-  const { auth } = useAuth()
-  if (!auth) return <div>Loading</div>
-  const isAuthenticated = auth?.isAuthenticated() ?? false
-  return isAuthenticated ? <Route {...routeProps} /> : <RedirectToLogin />
-}
 
 export const Routes = (): JSX.Element => {
   return (
@@ -21,6 +14,13 @@ export const Routes = (): JSX.Element => {
       <Route path='*' component={NotFound} />
     </Switch>
   )
+}
+
+const ProtectedRoute = (routeProps: RouteProps) => {
+  const { auth } = useAuth()
+  if (!auth) return <div>Loading</div>
+  const isAuthenticated = auth?.isAuthenticated() ?? false
+  return isAuthenticated ? <Route {...routeProps} /> : <RedirectToLogin />
 }
 
 const RedirectToLogin = () => {

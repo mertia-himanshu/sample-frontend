@@ -5,7 +5,7 @@ import { expect } from 'chai'
 import React from 'react'
 import { anything, capture, deepEqual, verify, when } from 'ts-mockito'
 import { GreetUser } from '../../src/components'
-import { AdminGreetUser } from '../../src/components/GreetUser'
+import { AdminGreetUser } from '../../src/components/pages/GreetUser'
 import {
   locationServiceMock,
   mockFetch,
@@ -29,12 +29,11 @@ describe('Greet User', () => {
     const firstname = 'Test'
     const lastname = 'User'
     const userInfo = {
-      _type: 'UserInfo',
       firstname,
       lastname
     }
-    const msg = `Hello user: firstname{lastname}!!!`
-    const response = new Response(JSON.stringify({ msg: msg }))
+    const greeting = `Hello user: ${firstname} ${lastname}!!!`
+    const response = new Response(JSON.stringify({ greeting }))
     const fetch = mockFetch()
 
     when(fetch(anything(), anything())).thenResolve(response)
@@ -56,10 +55,10 @@ describe('Greet User', () => {
     )) as HTMLButtonElement
 
     await waitFor(() => userEvent.click(submitButton))
-
+    debugger
     verify(locationServiceMock.find(deepEqual(connection))).called()
     const [firstArg, secondArg] = capture(fetch).last()
-    expect(firstArg).to.equal(httpLocation.uri + 'sayHello')
+    expect(firstArg).to.equal(httpLocation.uri + 'greeting')
 
     const expectedReq = {
       method: 'POST',
@@ -69,19 +68,18 @@ describe('Greet User', () => {
 
     expect(JSON.stringify(secondArg)).to.equal(JSON.stringify(expectedReq))
 
-    await screen.findByText(msg)
+    await screen.findByText(greeting)
   })
 
-  it('should render secure Input form and display message on submit', async () => {
+  it('should render admin Input form and display message on submit', async () => {
     const firstname = 'Test'
     const lastname = 'User'
     const userInfo = {
-      _type: 'UserInfo',
       firstname,
       lastname
     }
-    const msg = `Hello user: firstname{lastname}!!!`
-    const response = new Response(JSON.stringify([{ msg: msg }]))
+    const greeting = `Hello admin user: ${firstname} ${lastname}!!!`
+    const response = new Response(JSON.stringify({ greeting }))
     const fetch = mockFetch()
 
     when(fetch(anything(), anything())).thenResolve(response)
@@ -103,10 +101,10 @@ describe('Greet User', () => {
     )) as HTMLButtonElement
 
     await waitFor(() => userEvent.click(submitButton))
-
+    debugger
     verify(locationServiceMock.find(deepEqual(connection))).called()
     const [firstArg, secondArg] = capture(fetch).last()
-    expect(firstArg).to.equal(httpLocation.uri + 'securedSayHello')
+    expect(firstArg).to.equal(httpLocation.uri + 'adminGreeting')
 
     const expectedReq = {
       method: 'POST',
@@ -119,6 +117,6 @@ describe('Greet User', () => {
 
     expect(JSON.stringify(secondArg)).to.equal(JSON.stringify(expectedReq))
 
-    await screen.findByText(msg)
+    await screen.findByText(greeting)
   })
 })
