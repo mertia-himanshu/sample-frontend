@@ -24,7 +24,11 @@ export const AdminGreeting = (): JSX.Element => {
         errorMessage('Failed to greet user: Unauthenticated request')
       } else {
         const response = await fetchAdminGreeting(backendUrl, values, token)
-        if (response) setGreeting(response.greeting)
+        if (response?.greeting) setGreeting(response.greeting)
+        else {
+          console.error(response)
+          throw new Error('Invalid response, greeting field is missing')
+        }
       }
     }
   }

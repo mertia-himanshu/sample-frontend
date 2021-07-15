@@ -8,6 +8,11 @@ import { post } from './Http'
 const greetingUrl = (baseUrl: string) => baseUrl + 'greeting'
 const adminGreetingUrl = (baseUrl: string) => baseUrl + 'adminGreeting'
 
+// NOTE : user need to put checks to make sure desired fields inside response are present and not undefined, to avoid unwanted errors during runtime.
+// e.g.   const response = await fetchGreeting(...)
+//        if (response?.greeting) do something ...
+//        else do something else ...
+
 export const fetchGreeting = async (
   baseUrl: string,
   userInfo: UserInfoRequest

@@ -16,7 +16,11 @@ export const Greeting = (): JSX.Element => {
 
     if (backendUrl) {
       const response = await fetchGreeting(backendUrl, values)
-      if (response) setGreeting(response.greeting)
+      if (response?.greeting) setGreeting(response.greeting)
+      else {
+        console.error(response)
+        throw new Error('Invalid response, greeting field is missing')
+      }
     }
   }
 
