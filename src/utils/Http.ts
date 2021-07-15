@@ -22,12 +22,12 @@ const http = async <Res>(
   return response
 }
 
-export const get = async <Res>(path: string): Promise<HttpResponse<Res>> => {
+export const get = <Res>(path: string): Promise<HttpResponse<Res>> => {
   const args: RequestInit = { method: 'GET' }
-  return await http<Res>(path, args)
+  return http<Res>(path, args)
 }
 
-export const post = async <Req, Res>(
+export const post = <Req, Res>(
   path: string,
   body: Req,
   headers?: HeadersInit
@@ -37,10 +37,10 @@ export const post = async <Req, Res>(
     body: JSON.stringify(body),
     headers: { 'Content-Type': 'application/json', ...headers }
   }
-  return await http<Res>(path, args)
+  return http<Res>(path, args)
 }
 
-export const put = async <Req, Res>(
+export const put = <Req, Res>(
   path: string,
   body: Req,
   headers?: HeadersInit
@@ -50,5 +50,5 @@ export const put = async <Req, Res>(
     body: JSON.stringify(body),
     headers: { 'Content-Type': 'application/json', ...headers }
   }
-  return await http<Res>(path, args)
+  return http<Res>(path, args)
 }
