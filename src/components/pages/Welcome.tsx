@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useUsername } from '../../hooks/useAuth'
-import { displayGreeting } from './GreetUser'
+import { displayGreeting } from './Greeting'
 
 export const Welcome = (): JSX.Element => {
   const [username, setUsername] = useState<string | undefined>(undefined)

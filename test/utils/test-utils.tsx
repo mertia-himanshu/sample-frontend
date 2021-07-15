@@ -1,14 +1,9 @@
 import { render, RenderResult } from '@testing-library/react'
-import {
-  Auth,
-  AuthContext,
-  HttpLocation,
-  LocationService
-} from '@tmtsoftware/esw-ts'
+import { Auth, AuthContext, LocationService } from '@tmtsoftware/esw-ts'
 import type { TestUtils } from '@tmtsoftware/esw-ts'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { anything, instance, mock, when } from 'ts-mockito'
+import { instance, mock } from 'ts-mockito'
 import { LocationServiceProvider } from '../../src/contexts/LocationServiceContext'
 
 class MockedFetch {
