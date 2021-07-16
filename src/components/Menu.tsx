@@ -10,32 +10,10 @@ export const Login = ({ login }: { login: () => void }): JSX.Element => (
 )
 
 export const Logout = ({ logout }: { logout: () => void }): JSX.Element => (
-  <Menu.Item key='login' onClick={logout}>
+  <Menu.Item key='logout' onClick={logout}>
     Logout
   </Menu.Item>
 )
-
-const UnAuthenticatedMenuItems = () => {
-  return (
-    <>
-      <Menu.Item key='home'>
-        <Link to='/'>Home</Link>
-      </Menu.Item>
-      <Menu.Item key='greeting'>
-        <Link to='/greeting'>Greeting</Link>
-      </Menu.Item>
-    </>
-  )
-}
-const AuthenticatedMenuItems = () => {
-  return (
-    <>
-      <Menu.Item key='adminGreeting'>
-        <Link to='/adminGreeting'>Admin Greeting</Link>
-      </Menu.Item>
-    </>
-  )
-}
 
 export const MenuBar = (): JSX.Element => {
   const { auth, login, logout } = useAuth()
@@ -43,10 +21,17 @@ export const MenuBar = (): JSX.Element => {
 
   return (
     <Menu mode='horizontal'>
-      <UnAuthenticatedMenuItems />
+      <Menu.Item key='home'>
+        <Link to='/'>Home</Link>
+      </Menu.Item>
+      <Menu.Item key='greeting'>
+        <Link to='/greeting'>Greeting</Link>
+      </Menu.Item>
       {isAuthenticated ? (
         <>
-          <AuthenticatedMenuItems />
+          <Menu.Item key='adminGreeting'>
+            <Link to='/adminGreeting'>Admin Greeting</Link>
+          </Menu.Item>
           <Logout logout={logout} />
         </>
       ) : (
